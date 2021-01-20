@@ -3,7 +3,8 @@
         "target": "es6", // vai traduzir para ecmascript 6
         "outDir": "app/js", // pasta que será criada os arquivos JS
         "noEmitOnError": true, // não compila se houver erros
-        "noImplicitAny": true // não vai adotar o tipo any
+        "noImplicitAny": true, // não vai adotar o tipo any
+        "removeComments": true // remove os comentários do arquivo JS
     },
     "include": [
         "app/ts/**/*"

@@ -2,13 +2,13 @@ class Negociacoes {
 
     private _negociacoes: Negociacao[] = []; // um array que contém obejetos do tipo negociacao
 
-    adiciona(negociacao: Negociacao) {
+    adiciona(negociacao: Negociacao): void {
 
         this._negociacoes.push(negociacao);
     }
 
-    paraArray() {
+    paraArray(): Negociacao[] {
 
-        return this._negociacoes; // pega os dados como array
+        return [].concat(this._negociacoes); // pega os dados como array
     }
 }
