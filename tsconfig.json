@@ -4,7 +4,10 @@
         "outDir": "app/js", // pasta que será criada os arquivos JS
         "noEmitOnError": true, // não compila se houver erros
         "noImplicitAny": true, // não vai adotar o tipo any
-        "removeComments": true // remove os comentários do arquivo JS
+        "removeComments": true, // remove os comentários do arquivo JS
+        "module": "System", // loader que carrega nossos módulos
+        "strictNullChecks": true, // null e undefined não fazem parte do domínio dos tipos e só podem ser atribuídos a eles mesmos  
+        "experimentalDecorators": true // mostra o tempo de renderização de modo geral
     },
     "include": [
         "app/ts/**/*"
