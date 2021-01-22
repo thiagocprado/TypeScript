@@ -1,6 +1,6 @@
-System.register(["../views/index", "../models/index"], function (exports_1, context_1) {
+System.register(["../views/index", "../models/index", "../services/index"], function (exports_1, context_1) {
     "use strict";
-    var index_1, index_2, NegociacaoController, DiaDaSemana;
+    var index_1, index_2, index_3, NegociacaoController, DiaDaSemana;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -9,6 +9,9 @@ System.register(["../views/index", "../models/index"], function (exports_1, cont
             },
             function (index_2_1) {
                 index_2 = index_2_1;
+            },
+            function (index_3_1) {
+                index_3 = index_3_1;
             }
         ],
         execute: function () {
@@ -17,6 +20,7 @@ System.register(["../views/index", "../models/index"], function (exports_1, cont
                     this._negociacoes = new index_2.Negociacoes();
                     this._negociacoesView = new index_1.NegociacoesView('#negociacoesView');
                     this._mensagemView = new index_1.MensagemView('#mensagemView');
+                    this._service = new index_3.NegociacaoService();
                     this._inputData = $('#data');
                     this._inputQuantidade = $('#quantidade');
                     this._inputValor = $('#valor');
@@ -36,6 +40,23 @@ System.register(["../views/index", "../models/index"], function (exports_1, cont
                 }
                 _ehDiaUtil(data) {
                     return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo;
+                }
+                importarDados() {
+                    function isOk(res) {
+                        if (res.ok) {
+                            return res;
+                        }
+                        else {
+                            throw new Error(res.statusText);
+                        }
+                    }
+                    fetch('http://localhost:8080/dados')
+                        .then(res => isOk(res))
+                        .then(res => res.json())
+                        .then((dados) => {
+                        dados.map(dado => new index_2.Negociacao(new Date(), dado.vezes, dado.montante));
+                    })
+                        .catch(err => console.log(err.message));
                 }
             };
             exports_1("NegociacaoController", NegociacaoController);

@@ -1,7 +1,7 @@
 export function logarTempoDeExecucao(emSegundos: boolean = false) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
 
-        const metodoOriginal: any = descriptor.value;
+        const metodoOriginal = descriptor.value;
         descriptor.value = function (...args: any[]) {
 
             let unidade = 'ms';

@@ -1,6 +1,9 @@
-import { logarTempoDeExecucao } from '../helpers/decorators/index'
+// import { logarTempoDeExecucao } from '../helpers/decorators/index'
+// import { throttle } from '../helpers/decorators/index';
 import { NegociacoesView, MensagemView } from '../views/index';
 import { Negociacoes, Negociacao } from '../models/index';
+import { NegociacaoParcial } from '../models/index';
+import { NegociacaoService } from '../services/index';
 export class NegociacaoController {
 
     private _inputData: JQuery;
@@ -9,6 +12,8 @@ export class NegociacaoController {
     private _negociacoes = new Negociacoes();
     private _negociacoesView = new NegociacoesView('#negociacoesView');
     private _mensagemView = new MensagemView('#mensagemView');
+
+    private _service = new NegociacaoService();
 
     constructor() {
 
@@ -19,6 +24,7 @@ export class NegociacaoController {
     }
 
     // @logarTempoDeExecucao(true);
+    // @throttle();
 
     adiciona(event: Event) {
 
@@ -47,6 +53,26 @@ export class NegociacaoController {
     private _ehDiaUtil(data: Date) {
 
         return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo;
+    }
+
+    importarDados() {
+
+        function isOk(res: Response) {
+            if (res.ok) {
+                return res;
+            } else {
+                throw new Error(res.statusText)
+            }
+        }
+
+        this._service
+            .obterNegociacoes(isOk)
+            .then(negociacoes => {
+                negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
+
+                 this._negociacoesView.update(this._negociacoes);
+            )}
+
     }
 }
 
